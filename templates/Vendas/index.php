@@ -5,7 +5,7 @@
  */
 ?>
 <div class="vendas index content">
-    <?= $this->Html->link(__('New Venda'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <?= $this->Html->link(__('Cadastrar Venda'), ['action' => 'add'], ['class' => 'button float-right']) ?>
     <h3><?= __('Vendas') ?></h3>
     <div class="table-responsive">
         <table>
@@ -16,7 +16,7 @@
                     <th><?= $this->Paginator->sort('quantidade') ?></th>
                     <th><?= $this->Paginator->sort('Produto') ?></th>
                     <th><?= $this->Paginator->sort('Cliente') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th class="actions"><?= __('Ações') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -28,9 +28,9 @@
                     <td><?= $venda->produto ? h($venda->produto->nome_prod) : '' ?></td>
                     <td><?= $venda->cliente ? h($venda->cliente->nome) : '' ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $venda->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $venda->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $venda->id], ['confirm' => __('Are you sure you want to delete # {0}?', $venda->id)]) ?>
+                        <?= $this->Html->link(__('Ver'), ['action' => 'view', $venda->id]) ?>
+                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $venda->id]) ?>
+                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $venda->id], ['confirm' => __('Are you sure you want to delete # {0}?', $venda->id)]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

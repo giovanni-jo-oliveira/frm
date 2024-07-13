@@ -3,19 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-/**
- * Vendas Controller
- *
- * @property \App\Model\Table\VendasTable $Vendas
- * @method \App\Model\Entity\Venda[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
- */
+
 class VendasController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
+
     public function index()
     {
         $this->paginate = [
@@ -26,13 +17,7 @@ class VendasController extends AppController
         $this->set(compact('vendas'));
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Venda id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
+   
     public function view($id = null)
     {
         $venda = $this->Vendas->get($id, [
@@ -42,11 +27,6 @@ class VendasController extends AppController
         $this->set(compact('venda'));
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     */
     public function add()
 {
     $venda = $this->Vendas->newEmptyEntity();
@@ -68,29 +48,33 @@ class VendasController extends AppController
     $this->set(compact('venda', 'produtos', 'clientes'));
 }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Venda id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $venda = $this->Vendas->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $venda = $this->Vendas->patchEntity($venda, $this->request->getData());
-            if ($this->Vendas->save($venda)) {
-                $this->Flash->success(__('The venda has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The venda could not be saved. Please, try again.'));
+public function edit($id = null)
+{
+    $venda = $this->Vendas->get($id, [
+        'contain' => ['Produtos', 'Clientes'], // Carrega dados relacionados de Produtos e Clientes
+    ]);
+
+    if ($this->request->is(['patch', 'post', 'put'])) {
+        $venda = $this->Vendas->patchEntity($venda, $this->request->getData());
+        if ($this->Vendas->save($venda)) {
+            $this->Flash->success(__('The venda has been saved.'));
+            return $this->redirect(['action' => 'index']);
         }
-        $this->set(compact('venda'));
+        $this->Flash->error(__('The venda could not be saved. Please, try again.'));
     }
+
+    // Carrega todos os produtos e clientes para dropdowns
+    $produtos = $this->Vendas->Produtos->find('list')->toArray();
+    $clientes = $this->Vendas->Clientes->find('list')->toArray();
+
+    $this->set(compact('venda', 'produtos', 'clientes'));
+}
+
+
+
+    
+    
 
     /**
      * Delete method
